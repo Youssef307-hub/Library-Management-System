@@ -1,6 +1,7 @@
 package com.example.libraryManagementSystem.controller;
 
 
+import com.example.libraryManagementSystem.dto.CustomerDTO;
 import com.example.libraryManagementSystem.model.Customer;
 import com.example.libraryManagementSystem.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,13 +57,13 @@ public class CustomerRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer added successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class))}),
+                            schema = @Schema(implementation = CustomerDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Customer already exists")
     })
     @PostMapping
-    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
-        return customerService.addCustomer(customer);
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
+        return customerService.addCustomer(customerDTO);
     }
 
 
@@ -70,13 +71,13 @@ public class CustomerRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer updated successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class))}),
+                            schema = @Schema(implementation = CustomerDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Customer not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody Customer customer) {
-        return customerService.updateCustomer(id, customer);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerDTO customerDTO) {
+        return customerService.updateCustomer(id, customerDTO);
     }
 
 

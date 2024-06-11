@@ -1,5 +1,6 @@
 package com.example.libraryManagementSystem.controller;
 
+import com.example.libraryManagementSystem.dto.BookDTO;
 import com.example.libraryManagementSystem.model.Book;
 import com.example.libraryManagementSystem.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,13 +72,13 @@ public class BookRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book added successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class))}),
+                            schema = @Schema(implementation = BookDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Book already exists")
     })
     @PostMapping
-    public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
-        return bookService.addBook(book);
+    public ResponseEntity<Book> addBook(@Valid @RequestBody BookDTO bookDTO) {
+        return bookService.addBook(bookDTO);
     }
 
 
@@ -85,15 +86,15 @@ public class BookRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book updated successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class))}),
+                            schema = @Schema(implementation = BookDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(
             @PathVariable Long id,
-            @Valid @RequestBody Book book) {
-        return bookService.updateBook(id, book);
+            @Valid @RequestBody BookDTO bookDTO) {
+        return bookService.updateBook(id, bookDTO);
     }
 
 

@@ -1,12 +1,14 @@
 package com.example.libraryManagementSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity(name = "Author")
@@ -39,19 +41,21 @@ public class Author {
             nullable = false,
             columnDefinition = "VARCHAR(255)"
     )
-    @NotBlank
     private String name;
 
     @Column(
             name = "birth_date",
-            columnDefinition = "VARCHAR(255)"
+            columnDefinition = "DATE"
     )
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date must be in the format YYYY-MM-DD")
-    private String birthDate;
+    private LocalDate birthDate;
 
     @Column(
             name = "nationality",
             columnDefinition = "VARCHAR(255)"
     )
     private String nationality;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "author")
+    @JsonIgnore
+    private List<Book> books;
 }

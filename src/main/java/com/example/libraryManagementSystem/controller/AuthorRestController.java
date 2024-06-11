@@ -1,5 +1,6 @@
 package com.example.libraryManagementSystem.controller;
 
+import com.example.libraryManagementSystem.dto.AuthorDTO;
 import com.example.libraryManagementSystem.model.Author;
 import com.example.libraryManagementSystem.service.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,13 +56,13 @@ public class AuthorRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author added successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class))}),
+                            schema = @Schema(implementation = AuthorDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Author already exists")
     })
     @PostMapping
-    public ResponseEntity<Author> addAuthor(@Valid @RequestBody Author author) {
-        return authorService.addAuthor(author);
+    public ResponseEntity<Author> addAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
+        return authorService.addAuthor(authorDTO);
     }
 
 
@@ -69,13 +70,13 @@ public class AuthorRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author updated successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class))}),
+                            schema = @Schema(implementation = AuthorDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @Valid @RequestBody Author author) {
-        return authorService.updateAuthor(id, author);
+    public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @Valid @RequestBody AuthorDTO authorDTO) {
+        return authorService.updateAuthor(id, authorDTO);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.libraryManagementSystem.service;
 
+import com.example.libraryManagementSystem.dto.CustomerDTO;
 import com.example.libraryManagementSystem.exceptionhandling.DataAlreadyExistException;
 import com.example.libraryManagementSystem.exceptionhandling.DataNotFoundException;
 import com.example.libraryManagementSystem.model.Customer;
@@ -53,18 +54,18 @@ public class CustomerService {
     }
 
     @CacheEvict(value = "customers", allEntries = true)
-    public ResponseEntity<Customer> addCustomer(Customer customer) {
-        if (repository.existsByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber()))
+    public ResponseEntity<Customer> addCustomer(CustomerDTO customerDTO) {
+        if (repository.existsByEmailOrPhoneNumber(customerDTO.getEmail(), customerDTO.getPhoneNumber()))
             throw new DataAlreadyExistException("This Customer Already Exists!");
 
-        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
 
         Customer newCustomer = Customer
                 .builder()
-                .name(customer.getName())
-                .address(customer.getAddress())
-                .email(customer.getEmail())
-                .phoneNumber(customer.getPhoneNumber())
+                .name(customerDTO.getName())
+                .address(customerDTO.getAddress())
+                .email(customerDTO.getEmail())
+                .phoneNumber(customerDTO.getPhoneNumber())
                 .password(encodedPassword)
                 .build();
 
@@ -72,16 +73,16 @@ public class CustomerService {
     }
 
     @CacheEvict(value = "customers", allEntries = true)
-    public ResponseEntity<Customer> updateCustomer(Long id, Customer customer) {
+    public ResponseEntity<Customer> updateCustomer(Long id, CustomerDTO customerDTO) {
         if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Customer With The ID: " + id + " Found!");
 
         Customer updatedCustomer = repository.findById(id).get();
-        updatedCustomer.setName(customer.getName());
-        updatedCustomer.setAddress(customer.getAddress());
-        updatedCustomer.setEmail(customer.getEmail());
-        updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
-        String encodedPassword = passwordEncoder.encode(customer.getPassword());
+        updatedCustomer.setName(customerDTO.getName());
+        updatedCustomer.setAddress(customerDTO.getAddress());
+        updatedCustomer.setEmail(customerDTO.getEmail());
+        updatedCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
+        String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
         updatedCustomer.setPassword(encodedPassword);
 
         return new ResponseEntity<>(repository.save(updatedCustomer), HttpStatus.OK);

@@ -1,12 +1,12 @@
 package com.example.libraryManagementSystem.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity(name = "Book")
 @Table(name = "book")
@@ -38,22 +38,19 @@ public class Book {
             name = "title",
             columnDefinition = "VARCHAR(255)"
     )
-    @NotNull
     private String title;
 
     @Column(
             name = "publication_date",
-            columnDefinition = "VARCHAR(255)"
+            columnDefinition = "DATE"
     )
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date must be in the format YYYY-MM-DD")
-    private String publicationDate;
+    private LocalDate publicationDate;
 
     @Column(
             name = "isbn",
             columnDefinition = "VARCHAR(255)",
             nullable = false
     )
-    @NotNull
     private String isbn;
 
     @Column(
@@ -67,10 +64,9 @@ public class Book {
             columnDefinition = "BOOLEAN",
             nullable = false
     )
-    @NotNull
     private boolean available;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(
             name = "author_id",
             referencedColumnName = "id",

@@ -1,5 +1,6 @@
 package com.example.libraryManagementSystem.service;
 
+import com.example.libraryManagementSystem.dto.AuthorDTO;
 import com.example.libraryManagementSystem.exceptionhandling.DataAlreadyExistException;
 import com.example.libraryManagementSystem.exceptionhandling.DataNotFoundException;
 import com.example.libraryManagementSystem.model.Author;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -51,29 +53,29 @@ public class AuthorService {
     }
 
     @CacheEvict(value = "authors", allEntries = true)
-    public ResponseEntity<Author> addAuthor(Author author) {
-        if (repository.existsByNameAndBirthDateAndNationality(author.getName(), author.getBirthDate(), author.getNationality()))
+    public ResponseEntity<Author> addAuthor(AuthorDTO authorDTO) {
+        if (repository.existsByNameAndBirthDateAndNationality(authorDTO.getName(), LocalDate.parse(authorDTO.getBirthDate()), authorDTO.getNationality()))
             throw new DataAlreadyExistException("This Author Already Exists!");
 
         Author newAuthor = Author
                 .builder()
-                .name(author.getName())
-                .birthDate(author.getBirthDate())
-                .nationality(author.getNationality())
+                .name(authorDTO.getName())
+                .birthDate(LocalDate.parse(authorDTO.getBirthDate()))
+                .nationality(authorDTO.getNationality())
                 .build();
 
         return new ResponseEntity<>(repository.save(newAuthor), HttpStatus.OK);
     }
 
     @CacheEvict(value = "authors", allEntries = true)
-    public ResponseEntity<Author> updateAuthor(Long id, Author author) {
+    public ResponseEntity<Author> updateAuthor(Long id, AuthorDTO authorDTO) {
         if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Author With The ID: " + id + " Found!");
 
         Author updatedAuthor = repository.findById(id).get();
-        updatedAuthor.setName(author.getName());
-        updatedAuthor.setBirthDate(author.getBirthDate());
-        updatedAuthor.setNationality(author.getNationality());
+        updatedAuthor.setName(authorDTO.getName());
+        updatedAuthor.setBirthDate(LocalDate.parse(authorDTO.getBirthDate()));
+        updatedAuthor.setNationality(authorDTO.getNationality());
 
         return new ResponseEntity<>(repository.save(updatedAuthor), HttpStatus.OK);
     }

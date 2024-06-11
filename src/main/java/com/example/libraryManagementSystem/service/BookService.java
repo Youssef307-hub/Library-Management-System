@@ -1,5 +1,6 @@
 package com.example.libraryManagementSystem.service;
 
+import com.example.libraryManagementSystem.dto.BookDTO;
 import com.example.libraryManagementSystem.exceptionhandling.BadRequestException;
 import com.example.libraryManagementSystem.exceptionhandling.DataAlreadyExistException;
 import com.example.libraryManagementSystem.exceptionhandling.DataNotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -101,32 +103,32 @@ public class BookService {
     }
 
     @CacheEvict(value = "books", allEntries = true)
-    public ResponseEntity<Book> addBook(Book book) {
-        if (bookRepository.existsByTitleAndIsbn(book.getTitle(), book.getIsbn()))
+    public ResponseEntity<Book> addBook(BookDTO bookDTO) {
+        if (bookRepository.existsByTitleAndIsbn(bookDTO.getTitle(), bookDTO.getIsbn()))
             throw new DataAlreadyExistException("This Book Already Exists!");
 
         // Check if the author exists in the database
         Author author = authorRepository.findByNameAndBirthDateAndNationality(
-                book.getAuthor().getName(),
-                book.getAuthor().getBirthDate(),
-                book.getAuthor().getNationality()
+                bookDTO.getAuthor().getName(),
+                bookDTO.getAuthor().getBirthDate(),
+                bookDTO.getAuthor().getNationality()
         ).orElseGet(() -> {
             // If the author does not exist, save the new author
             Author newAuthor = Author.builder()
-                    .name(book.getAuthor().getName())
-                    .birthDate(book.getAuthor().getBirthDate())
-                    .nationality(book.getAuthor().getNationality())
+                    .name(bookDTO.getAuthor().getName())
+                    .birthDate(bookDTO.getAuthor().getBirthDate())
+                    .nationality(bookDTO.getAuthor().getNationality())
                     .build();
             return authorRepository.save(newAuthor);
         });
 
         Book newBook = Book
                 .builder()
-                .title(book.getTitle())
-                .genre(book.getGenre())
-                .isbn(book.getIsbn())
-                .publicationDate(book.getPublicationDate())
-                .available(book.isAvailable())
+                .title(bookDTO.getTitle())
+                .genre(bookDTO.getGenre())
+                .isbn(bookDTO.getIsbn())
+                .publicationDate(LocalDate.parse(bookDTO.getPublicationDate()))
+                .available(bookDTO.isAvailable())
                 .author(author)
                 .build();
 
@@ -134,17 +136,32 @@ public class BookService {
     }
 
     @CacheEvict(value = "books", allEntries = true)
-    public ResponseEntity<Book> updateBook(Long id, Book book) {
+    public ResponseEntity<Book> updateBook(Long id, BookDTO bookDTO) {
         if (bookRepository.findById(id).isEmpty())
             throw new DataNotFoundException("No Book With The ID: " + id + " Found!");
 
+        // Check if the author exists in the database
+        Author author = authorRepository.findByNameAndBirthDateAndNationality(
+                bookDTO.getAuthor().getName(),
+                bookDTO.getAuthor().getBirthDate(),
+                bookDTO.getAuthor().getNationality()
+        ).orElseGet(() -> {
+            // If the author does not exist, save the new author
+            Author newAuthor = Author.builder()
+                    .name(bookDTO.getAuthor().getName())
+                    .birthDate(bookDTO.getAuthor().getBirthDate())
+                    .nationality(bookDTO.getAuthor().getNationality())
+                    .build();
+            return authorRepository.save(newAuthor);
+        });
+
         Book updatedBook = bookRepository.findById(id).get();
-        updatedBook.setTitle(book.getTitle());
-        updatedBook.setIsbn(book.getIsbn());
-        updatedBook.setGenre(book.getGenre());
-        updatedBook.setAvailable(book.isAvailable());
-        updatedBook.setAuthor(book.getAuthor());
-        updatedBook.setPublicationDate(book.getPublicationDate());
+        updatedBook.setTitle(bookDTO.getTitle());
+        updatedBook.setIsbn(bookDTO.getIsbn());
+        updatedBook.setGenre(bookDTO.getGenre());
+        updatedBook.setAvailable(bookDTO.isAvailable());
+        updatedBook.setAuthor(author);
+        updatedBook.setPublicationDate(LocalDate.parse(bookDTO.getPublicationDate()));
 
         return new ResponseEntity<>(bookRepository.save(updatedBook), HttpStatus.OK);
     }
@@ -156,6 +173,6 @@ public class BookService {
 
         bookRepository.deleteById(id);
 
-        return new ResponseEntity<>("Author With ID: " + id + " Deleted Successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Book With ID: " + id + " Deleted Successfully!", HttpStatus.OK);
     }
 }
