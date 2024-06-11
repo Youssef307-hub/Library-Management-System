@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/authors")
+@RequestMapping("/api/v1/library/authors")
 @RequiredArgsConstructor
 public class AuthorRestController {
 

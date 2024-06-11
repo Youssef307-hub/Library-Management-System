@@ -1,6 +1,5 @@
 package com.example.libraryManagementSystem.controller;
 
-import com.example.libraryManagementSystem.model.Author;
 import com.example.libraryManagementSystem.model.Book;
 import com.example.libraryManagementSystem.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/v1/library/books")
 public class BookRestController {
 
     private final BookService bookService;

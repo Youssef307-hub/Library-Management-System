@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity(name = "Customer")
 @Table(name = "customer", uniqueConstraints = {
         @UniqueConstraint(name = "email_unique_key", columnNames = "email"),
@@ -73,13 +71,11 @@ public class Customer {
 
     @Column(
             name = "password",
-            columnDefinition = "VARCHAR(255)"
+            columnDefinition = "VARCHAR(60)",
+            nullable = false
     )
-    @NotNull
-    @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-            message = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-    )
+    @NotBlank
+    @Size(min = 8, max = 64)
     private String password;
 
 
