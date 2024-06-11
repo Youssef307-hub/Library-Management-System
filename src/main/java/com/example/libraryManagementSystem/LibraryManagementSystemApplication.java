@@ -8,8 +8,8 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class LibraryManagementSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LibraryManagementSystemApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LibraryManagementSystemApplication.class, args);
+    }
 
 }

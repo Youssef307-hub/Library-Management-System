@@ -5,7 +5,8 @@ import com.example.libraryManagementSystem.exceptionhandling.DataNotFoundExcepti
 import com.example.libraryManagementSystem.model.Author;
 import com.example.libraryManagementSystem.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.*;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,15 +24,15 @@ public class AuthorService {
     private final AuthorRepository repository;
 
     @Cacheable("authors")
-    public ResponseEntity<List<Author>> getAuthors(int pageNumber, int pageSize, String field){
+    public ResponseEntity<List<Author>> getAuthors(int pageNumber, int pageSize, String field) {
 
-        if(repository.findAll().isEmpty())
+        if (repository.findAll().isEmpty())
             throw new DataNotFoundException("No Authors Found!");
 
-        if(pageNumber <= 0)
+        if (pageNumber <= 0)
             pageNumber = 0;
 
-        if (pageSize <=0)
+        if (pageSize <= 0)
             pageSize = 5;
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(field));
@@ -42,15 +43,15 @@ public class AuthorService {
     }
 
     @Cacheable("authors")
-    public ResponseEntity<Author> getAuthorById(Long id){
-        if(repository.findById(id).isEmpty())
+    public ResponseEntity<Author> getAuthorById(Long id) {
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Author With The ID: " + id + " Found!");
 
         return new ResponseEntity<>(repository.findById(id).get(), HttpStatus.OK);
     }
 
     @CacheEvict(value = "authors", allEntries = true)
-    public ResponseEntity<Author> addAuthor(Author author){
+    public ResponseEntity<Author> addAuthor(Author author) {
         if (repository.existsByNameAndBirthDateAndNationality(author.getName(), author.getBirthDate(), author.getNationality()))
             throw new DataAlreadyExistException("This Author Already Exists!");
 
@@ -66,7 +67,7 @@ public class AuthorService {
 
     @CacheEvict(value = "authors", allEntries = true)
     public ResponseEntity<Author> updateAuthor(Long id, Author author) {
-        if(repository.findById(id).isEmpty())
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Author With The ID: " + id + " Found!");
 
         Author updatedAuthor = repository.findById(id).get();
@@ -79,7 +80,7 @@ public class AuthorService {
 
     @CacheEvict(value = "authors", allEntries = true)
     public ResponseEntity<String> deleteAuthor(Long id) {
-        if(repository.findById(id).isEmpty())
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Author With The ID: " + id + " Found!");
 
         repository.deleteById(id);

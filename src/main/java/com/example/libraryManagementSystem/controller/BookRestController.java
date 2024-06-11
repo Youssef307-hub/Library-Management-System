@@ -22,12 +22,11 @@ public class BookRestController {
     private final BookService bookService;
 
 
-
     @Operation(summary = "Get all books", description = "Retrieve all books paginated and sorted by a specified field", tags = {"Books"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of books retrieved successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class)) })
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Book.class))})
     })
     @GetMapping
     public ResponseEntity<List<Book>> getBooks(
@@ -38,12 +37,11 @@ public class BookRestController {
     }
 
 
-
     @Operation(summary = "Search books", description = "Search for books by title, ISBN, or author name", tags = {"Books"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Books found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Books not found")
     })
@@ -56,12 +54,11 @@ public class BookRestController {
     }
 
 
-
     @Operation(summary = "Get book by ID", description = "Retrieve a book by its unique ID", tags = {"Books"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     @GetMapping("/{id}")
@@ -70,12 +67,11 @@ public class BookRestController {
     }
 
 
-
     @Operation(summary = "Add a new book", description = "Add a new book to the library. If the author does not exist, a new author will be created.", tags = {"Books"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book added successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Book already exists")
     })
@@ -85,12 +81,11 @@ public class BookRestController {
     }
 
 
-
     @Operation(summary = "Update an existing book", description = "Update details of an existing book", tags = {"Books"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book updated successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
@@ -100,7 +95,6 @@ public class BookRestController {
             @Valid @RequestBody Book book) {
         return bookService.updateBook(id, book);
     }
-
 
 
     @Operation(summary = "Delete a book", description = "Delete a book from the system", tags = {"Books"})

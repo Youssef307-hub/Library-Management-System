@@ -75,7 +75,7 @@ public class Book {
             name = "author_id",
             referencedColumnName = "id",
             nullable = false,
-            foreignKey = @ForeignKey( name = "author_id_fk")
+            foreignKey = @ForeignKey(name = "author_id_fk")
     )
     private Author author;
 }

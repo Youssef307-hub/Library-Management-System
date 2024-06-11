@@ -22,12 +22,11 @@ public class AuthorRestController {
     private final AuthorService authorService;
 
 
-
     @Operation(summary = "Get all authors", description = "Retrieve all authors paginated and sorted by a specified field", tags = "Authors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of authors retrieved successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Author.class))}),
             @ApiResponse(responseCode = "404", description = "No authors found")
     })
     @GetMapping
@@ -39,12 +38,11 @@ public class AuthorRestController {
     }
 
 
-
     @Operation(summary = "Get author by ID", description = "Retrieve an author by its unique ID", tags = "Authors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Author.class))}),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
     @GetMapping("/{id}")
@@ -53,12 +51,11 @@ public class AuthorRestController {
     }
 
 
-
     @Operation(summary = "Add a new author", description = "Add a new author to the system", tags = "Authors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author added successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Author.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Author already exists")
     })
@@ -68,12 +65,11 @@ public class AuthorRestController {
     }
 
 
-
     @Operation(summary = "Update an existing author", description = "Update details of an existing author", tags = "Authors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author updated successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Author.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Author.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
@@ -81,7 +77,6 @@ public class AuthorRestController {
     public ResponseEntity<Author> updateAuthor(@PathVariable Long id, @Valid @RequestBody Author author) {
         return authorService.updateAuthor(id, author);
     }
-
 
 
     @Operation(summary = "Delete an author", description = "Delete an author from the system", tags = "Authors")

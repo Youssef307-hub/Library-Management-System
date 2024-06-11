@@ -10,14 +10,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.authorizeHttpRequests( authorize -> authorize.anyRequest().permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 
         return http.build();
     }

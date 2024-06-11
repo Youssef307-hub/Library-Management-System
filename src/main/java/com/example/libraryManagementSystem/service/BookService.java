@@ -28,15 +28,15 @@ public class BookService {
     private final AuthorRepository authorRepository;
 
     @Cacheable("books")
-    public ResponseEntity<List<Book>> getBooks(int pageNumber, int pageSize, String field){
+    public ResponseEntity<List<Book>> getBooks(int pageNumber, int pageSize, String field) {
 
-        if(bookRepository.findAll().isEmpty())
+        if (bookRepository.findAll().isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
-        if(pageNumber <= 0)
+        if (pageNumber <= 0)
             pageNumber = 0;
 
-        if (pageSize <=0)
+        if (pageSize <= 0)
             pageSize = 5;
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(field));
@@ -71,37 +71,37 @@ public class BookService {
         }
     }
 
-    private ResponseEntity<List<Book>> getBooksByTitle(String title){
-        if(bookRepository.findAll().isEmpty() || bookRepository.findByTitle(title).isEmpty())
+    private ResponseEntity<List<Book>> getBooksByTitle(String title) {
+        if (bookRepository.findAll().isEmpty() || bookRepository.findByTitle(title).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByTitle(title), HttpStatus.OK);
     }
 
-    private ResponseEntity<List<Book>> getBooksByIsbn(String isbn){
-        if(bookRepository.findAll().isEmpty() || bookRepository.findByIsbn(isbn).isEmpty())
+    private ResponseEntity<List<Book>> getBooksByIsbn(String isbn) {
+        if (bookRepository.findAll().isEmpty() || bookRepository.findByIsbn(isbn).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByIsbn(isbn), HttpStatus.OK);
     }
 
-    private ResponseEntity<List<Book>> getBooksByAuthor(String authorName){
-        if(bookRepository.findAll().isEmpty() || bookRepository.findByAuthorName(authorName).isEmpty())
+    private ResponseEntity<List<Book>> getBooksByAuthor(String authorName) {
+        if (bookRepository.findAll().isEmpty() || bookRepository.findByAuthorName(authorName).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByAuthorName(authorName), HttpStatus.OK);
     }
 
     @Cacheable("books")
-    public ResponseEntity<Book> getBookById(Long id){
-        if(bookRepository.findById(id).isEmpty())
+    public ResponseEntity<Book> getBookById(Long id) {
+        if (bookRepository.findById(id).isEmpty())
             throw new DataNotFoundException("No Book With The ID: " + id + " Found!");
 
         return new ResponseEntity<>(bookRepository.findById(id).get(), HttpStatus.OK);
     }
 
     @CacheEvict(value = "books", allEntries = true)
-    public ResponseEntity<Book> addBook(Book book){
+    public ResponseEntity<Book> addBook(Book book) {
         if (bookRepository.existsByTitleAndIsbn(book.getTitle(), book.getIsbn()))
             throw new DataAlreadyExistException("This Book Already Exists!");
 
@@ -135,7 +135,7 @@ public class BookService {
 
     @CacheEvict(value = "books", allEntries = true)
     public ResponseEntity<Book> updateBook(Long id, Book book) {
-        if(bookRepository.findById(id).isEmpty())
+        if (bookRepository.findById(id).isEmpty())
             throw new DataNotFoundException("No Book With The ID: " + id + " Found!");
 
         Book updatedBook = bookRepository.findById(id).get();
@@ -151,7 +151,7 @@ public class BookService {
 
     @CacheEvict(value = "books", allEntries = true)
     public ResponseEntity<String> deleteBook(Long id) {
-        if(bookRepository.findById(id).isEmpty())
+        if (bookRepository.findById(id).isEmpty())
             throw new DataNotFoundException("No Book With The ID: " + id + " Found!");
 
         bookRepository.deleteById(id);

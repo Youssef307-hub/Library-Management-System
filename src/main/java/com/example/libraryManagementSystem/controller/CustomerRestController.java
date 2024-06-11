@@ -1,8 +1,8 @@
 package com.example.libraryManagementSystem.controller;
 
 
-import com.example.libraryManagementSystem.service.CustomerService;
 import com.example.libraryManagementSystem.model.Customer;
+import com.example.libraryManagementSystem.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,8 +26,8 @@ public class CustomerRestController {
     @Operation(summary = "Get all customers", description = "Retrieve a list of all customers", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of customers retrieved successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Customer.class))}),
             @ApiResponse(responseCode = "404", description = "No customers found")
     })
     @GetMapping
@@ -42,8 +42,8 @@ public class CustomerRestController {
     @Operation(summary = "Get customer by ID", description = "Retrieve a customer by its ID", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer retrieved successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Customer.class))}),
             @ApiResponse(responseCode = "404", description = "Customer not found")
     })
     @GetMapping("/{id}")
@@ -55,8 +55,8 @@ public class CustomerRestController {
     @Operation(summary = "Add a new customer", description = "Add a new customer to the database", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer added successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Customer.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "409", description = "Customer already exists")
     })
@@ -69,8 +69,8 @@ public class CustomerRestController {
     @Operation(summary = "Update customer", description = "Update an existing customer", tags = {"Customers"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer updated successfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Customer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Customer.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Customer not found")
     })

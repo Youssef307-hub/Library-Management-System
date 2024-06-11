@@ -13,8 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -26,15 +26,15 @@ public class CustomerService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Cacheable("customers")
-    public ResponseEntity<List<Customer>> getCustomers(int pageNumber, int pageSize, String field){
+    public ResponseEntity<List<Customer>> getCustomers(int pageNumber, int pageSize, String field) {
 
-        if(repository.findAll().isEmpty())
+        if (repository.findAll().isEmpty())
             throw new DataNotFoundException("No Customers Found!");
 
-        if(pageNumber <= 0)
+        if (pageNumber <= 0)
             pageNumber = 0;
 
-        if (pageSize <=0)
+        if (pageSize <= 0)
             pageSize = 5;
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(field));
@@ -45,15 +45,15 @@ public class CustomerService {
     }
 
     @Cacheable("customers")
-    public ResponseEntity<Customer> getCustomerById(Long id){
-        if(repository.findById(id).isEmpty())
+    public ResponseEntity<Customer> getCustomerById(Long id) {
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Customer With The ID: " + id + " Found!");
 
         return new ResponseEntity<>(repository.findById(id).get(), HttpStatus.OK);
     }
 
     @CacheEvict(value = "customers", allEntries = true)
-    public ResponseEntity<Customer> addCustomer(Customer customer){
+    public ResponseEntity<Customer> addCustomer(Customer customer) {
         if (repository.existsByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber()))
             throw new DataAlreadyExistException("This Customer Already Exists!");
 
@@ -73,7 +73,7 @@ public class CustomerService {
 
     @CacheEvict(value = "customers", allEntries = true)
     public ResponseEntity<Customer> updateCustomer(Long id, Customer customer) {
-        if(repository.findById(id).isEmpty())
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Customer With The ID: " + id + " Found!");
 
         Customer updatedCustomer = repository.findById(id).get();
@@ -89,7 +89,7 @@ public class CustomerService {
 
     @CacheEvict(value = "customers", allEntries = true)
     public ResponseEntity<String> deleteCustomer(Long id) {
-        if(repository.findById(id).isEmpty())
+        if (repository.findById(id).isEmpty())
             throw new DataNotFoundException("No Customer With The ID: " + id + " Found!");
 
         repository.deleteById(id);
