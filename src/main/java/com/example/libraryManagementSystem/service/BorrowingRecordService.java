@@ -105,6 +105,9 @@ public class BorrowingRecordService {
         Book book = bookRepository.findById(recordDTO.getBookId())
                 .orElseThrow(() -> new DataNotFoundException("No Book With That ID Found!"));
 
+        if(!book.isAvailable())
+            throw new BadRequestException("This Book Is Not Available!");
+
         Customer customer = customerRepository.findById(recordDTO.getCustomerId())
                 .orElseThrow(() -> new DataNotFoundException("No Customer With That ID Found!"));
 
@@ -136,13 +139,16 @@ public class BorrowingRecordService {
         Book book = bookRepository.findById(recordDTO.getBookId())
                 .orElseThrow(() -> new DataNotFoundException("No Book With That ID Found!"));
 
+        if(!book.isAvailable())
+            throw new BadRequestException("This Book Is Not Available!");
+
         Customer customer = customerRepository.findById(recordDTO.getCustomerId())
                 .orElseThrow(() -> new DataNotFoundException("No Customer With That ID Found!"));
 
         LocalDate borrowDate = LocalDate.parse(recordDTO.getBorrowDate());
         LocalDate returnDate = LocalDate.parse(recordDTO.getReturnDate());
 
-        if (borrowDate.isBefore(returnDate))
+        if (borrowDate.isAfter(returnDate))
             throw new BadRequestException("Borrow Date can't be before Return Date!");
 
         BorrowingRecord updatedRecord = recordRepository.findById(id).get();
