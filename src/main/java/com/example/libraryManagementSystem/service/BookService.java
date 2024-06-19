@@ -64,6 +64,9 @@ public class BookService {
             throw new BadRequestException("Only one search parameter can be provided at a time.");
         }
 
+        if (bookRepository.findAll().isEmpty())
+            throw new DataNotFoundException("No Books Found!");
+
         if (title != null) {
             return getBooksByTitle(title);
         } else if (isbn != null) {
@@ -73,22 +76,22 @@ public class BookService {
         }
     }
 
-    private ResponseEntity<List<Book>> getBooksByTitle(String title) {
-        if (bookRepository.findAll().isEmpty() || bookRepository.findByTitle(title).isEmpty())
+    public ResponseEntity<List<Book>> getBooksByTitle(String title) {
+        if (bookRepository.findByTitle(title).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByTitle(title), HttpStatus.OK);
     }
 
-    private ResponseEntity<List<Book>> getBooksByIsbn(String isbn) {
-        if (bookRepository.findAll().isEmpty() || bookRepository.findByIsbn(isbn).isEmpty())
+    public ResponseEntity<List<Book>> getBooksByIsbn(String isbn) {
+        if (bookRepository.findByIsbn(isbn).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByIsbn(isbn), HttpStatus.OK);
     }
 
-    private ResponseEntity<List<Book>> getBooksByAuthor(String authorName) {
-        if (bookRepository.findAll().isEmpty() || bookRepository.findByAuthorName(authorName).isEmpty())
+    public ResponseEntity<List<Book>> getBooksByAuthor(String authorName) {
+        if (bookRepository.findByAuthorName(authorName).isEmpty())
             throw new DataNotFoundException("No Books Found!");
 
         return new ResponseEntity<>(bookRepository.findByAuthorName(authorName), HttpStatus.OK);

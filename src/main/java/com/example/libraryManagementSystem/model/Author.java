@@ -58,4 +58,11 @@ public class Author {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "author")
     @JsonIgnore
     private List<Book> books;
+
+    public Author(Long id, String name, LocalDate birthDate, String nationality) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.nationality = nationality;
+    }
 }
