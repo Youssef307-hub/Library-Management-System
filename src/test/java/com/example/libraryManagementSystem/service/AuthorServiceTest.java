@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -119,6 +121,7 @@ class AuthorServiceTest {
 
 
     }
+
     @Test
     @DisplayName("TestGetAuthorById_ReturnAuthor")
     void testGetAuthorById_ReturnAuthor() {
@@ -224,8 +227,8 @@ class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("TestDeleteAuthor_ReturnString")
-    void testDeleteAuthor_ReturnString() {
+    @DisplayName("TestDeleteAuthor_ReturnSuccessMessage")
+    void testDeleteAuthor_ReturnSuccessMessage() {
         Author author = new Author(1L, "Author", LocalDate.of(1970, 1, 1), "American");
         when(repository.findById(author.getId())).thenReturn(Optional.of(author));
 

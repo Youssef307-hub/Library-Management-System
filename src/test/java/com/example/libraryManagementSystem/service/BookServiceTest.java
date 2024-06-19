@@ -441,8 +441,8 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("TestDeleteBook_ReturnString")
-    void testDeleteBook_ReturnString() {
+    @DisplayName("TestDeleteBook_ReturnSuccessMessage")
+    void testDeleteBook_ReturnSuccessMessage() {
         Long bookId = 1L;
         Book book = new Book(1L, "Book", LocalDate.of(2023, 6, 18), "1234567890", "Fiction", true,
                 new Author(1L, "Author", LocalDate.of(1970, 1, 1), "American"));

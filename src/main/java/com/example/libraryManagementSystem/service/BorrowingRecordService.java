@@ -105,7 +105,7 @@ public class BorrowingRecordService {
         Book book = bookRepository.findById(recordDTO.getBookId())
                 .orElseThrow(() -> new DataNotFoundException("No Book With That ID Found!"));
 
-        if(!book.isAvailable())
+        if (!book.isAvailable())
             throw new BadRequestException("This Book Is Not Available!");
 
         Customer customer = customerRepository.findById(recordDTO.getCustomerId())
@@ -139,7 +139,7 @@ public class BorrowingRecordService {
         Book book = bookRepository.findById(recordDTO.getBookId())
                 .orElseThrow(() -> new DataNotFoundException("No Book With That ID Found!"));
 
-        if(!book.isAvailable())
+        if (!book.isAvailable())
             throw new BadRequestException("This Book Is Not Available!");
 
         Customer customer = customerRepository.findById(recordDTO.getCustomerId())
