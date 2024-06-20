@@ -27,7 +27,8 @@ public class BookRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of books retrieved successfully",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Book.class))})
+                            schema = @Schema(implementation = Book.class))}),
+            @ApiResponse(responseCode = "404", description = "No Books found")
     })
     @GetMapping
     public ResponseEntity<List<Book>> getBooks(
