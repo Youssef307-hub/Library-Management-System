@@ -80,6 +80,14 @@ This application uses a SQL database (PostgreSQL) to store and retrieve data for
 ## Validation and Exception Handling
 The application implements validation checks to ensure data integrity and handles exceptions gracefully.
 
+## Testing
+
+### Unit Testing
+- **Service Classes**: Unit testing is done using JUnit and Mockito to ensure that the business logic is correctly implemented and works as expected.
+
+### Integration Testing
+- **RestController Classes**: Integration testing is performed using JUnit and MockMvc to verify that the RESTful endpoints are correctly wired and behave as expected when interacting with the service layer.
+
 ## API Documentation
 Swagger is used to generate API documentation, describing the endpoints, request parameters, response formats, etc.
 
