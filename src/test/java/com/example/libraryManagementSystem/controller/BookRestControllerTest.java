@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = BookRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -56,8 +54,8 @@ class BookRestControllerTest {
     @DisplayName("TestGetBooks_ReturnBooksList")
     void testGetBooks_ReturnBooksList() throws Exception {
         List<Book> books = Arrays.asList(
-                new Book(1L, "Book 1", LocalDate.now(),"ISBN1", "Genre 1", true, new Author()),
-                new Book(2L, "Book 2", LocalDate.now(),"ISBN2", "Genre 2", true, new Author())
+                new Book(1L, "Book 1", LocalDate.now(), "ISBN1", "Genre 1", true, new Author()),
+                new Book(2L, "Book 2", LocalDate.now(), "ISBN2", "Genre 2", true, new Author())
         );
 
         when(bookService.getBooks(anyInt(), anyInt(), anyString()))
@@ -237,7 +235,7 @@ class BookRestControllerTest {
     @Test
     @DisplayName("TestGetBookById_ReturnBook")
     void testGetBookById_ReturnBook() throws Exception {
-        Book book = new Book(1L, "Book 1", LocalDate.now(),"ISBN1", "Genre 1", true, new Author());
+        Book book = new Book(1L, "Book 1", LocalDate.now(), "ISBN1", "Genre 1", true, new Author());
 
         when(bookService.getBookById(1L))
                 .thenReturn(ResponseEntity.ok(book));
@@ -268,9 +266,9 @@ class BookRestControllerTest {
     @Test
     @DisplayName("TestAddBook_ReturnSavedBook")
     void testAddBook_ReturnSavedBook() throws Exception {
-        BookDTO bookDTO = new BookDTO("Book","2023-03-03","ISBN1", "Genre1"  , true, new Author());
+        BookDTO bookDTO = new BookDTO("Book", "2023-03-03", "ISBN1", "Genre1", true, new Author());
 
-        Book savedBook = new Book(1L, "Book", LocalDate.of(2023,3,3), "ISBN1", "Genre1" , true, new Author());
+        Book savedBook = new Book(1L, "Book", LocalDate.of(2023, 3, 3), "ISBN1", "Genre1", true, new Author());
 
         when(bookService.addBook(any(BookDTO.class)))
                 .thenReturn(ResponseEntity.ok(savedBook));
@@ -303,7 +301,7 @@ class BookRestControllerTest {
     @Test
     @DisplayName("TestAddBook_ThrowDataAlreadyExistException")
     void testAddBook_ThrowDataAlreadyExistException() throws Exception {
-        BookDTO bookDTO = new BookDTO("Book","2023-03-03","ISBN1", "Genre1"  , true, new Author());
+        BookDTO bookDTO = new BookDTO("Book", "2023-03-03", "ISBN1", "Genre1", true, new Author());
 
         when(bookService.addBook(any(BookDTO.class)))
                 .thenThrow(new DataAlreadyExistException("Book already exists"));
